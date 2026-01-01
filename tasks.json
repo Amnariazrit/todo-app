@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "id": 2,
+      "title": "My first task",
+      "status": "pending",
+      "created_at": "2026-01-01T22:15:20.516416"
+    }
+  ]
+}
