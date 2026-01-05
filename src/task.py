@@ -1,9 +1,10 @@
 """
-Data models for the Todo CLI application.
+Task class for the todo app.
+Represents a single task with attributes: id, title, description, status, priority, tags, and creation timestamp.
 """
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 
 @dataclass
@@ -25,15 +26,8 @@ class Task:
         if not self.title or not isinstance(self.title, str):
             raise ValueError("Task title must be a non-empty string")
 
-        # Normalize and validate priority - defaults to 'medium' if invalid
-        if self.priority:
-            normalized_priority = self.priority.lower().strip()
-            if normalized_priority in ['high', 'medium', 'low']:
-                self.priority = normalized_priority
-            else:
-                self.priority = 'medium'  # default value
-        else:
-            self.priority = 'medium'  # default value
+        if self.priority not in ['high', 'medium', 'low']:
+            raise ValueError("Task priority must be 'high', 'medium', or 'low'")
 
         if self.tags is None:
             self.tags = []
