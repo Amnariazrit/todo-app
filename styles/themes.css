@@ -1,0 +1,44 @@
+/* styles/themes.css */
+/* Theme-specific styles */
+
+/* Light theme overrides */
+.light {
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark theme overrides */
+.dark {
+  --glass-bg: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Theme transition */
+* {
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+}
+
+/* Premium theme colors */
+.indigo-primary {
+  color: hsl(var(--indigo-primary));
+}
+
+.purple-accent {
+  color: hsl(var(--purple-accent));
+}
+
+.cyan-accent {
+  color: hsl(var(--cyan-accent));
+}
+
+.gradient-indigo-purple-cyan {
+  background: linear-gradient(135deg, hsl(var(--indigo-primary)), hsl(var(--purple-accent)), hsl(var(--cyan-accent)));
+}
+
+/* Glassmorphism with theme awareness */
+.glass-theme {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

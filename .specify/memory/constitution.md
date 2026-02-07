@@ -1,47 +1,55 @@
-<!--
-Sync Impact Report:
-- Version change: N/A → 1.0.0 (initial version)
-- Modified principles: N/A (new constitution)
-- Added sections: Core Principles, Authority & Rules, Development Flow, Architecture Principles, AI Agent Constraints, Technology Stack Constraints, Security & Compliance, Engineering Standards, Enforcement Rules
-- Removed sections: N/A
-- Templates requiring updates: ✅ .specify/templates/plan-template.md, ✅ .specify/templates/spec-template.md, ✅ .specify/templates/tasks-template.md
-- Follow-up TODOs: None
--->
-# Todo/Workflow Application Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### Purpose & Vision
-Project aims to build an end-to-end scalable, spec-driven Todo/Workflow application. Claude Code has implementation authority only. Human role is to define Spec, Plan, Task; direct coding is forbidden. Principle: "No code without specification, no implementation without approval."
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-### Authority & Rules
-Claude Code has exclusive implementation authority. Humans are forbidden from direct code writing. Claude Code covers all layers: backend, frontend, API, agents, infra templates. Manual coding is forbidden. Hallucinations and assumptions are forbidden - Claude Code works only from spec. No code implementation occurs without spec, plan, and task.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### Source of Truth
-Priority hierarchy: Constitution, Specification, Plan, Tasks. All decisions follow this order of precedence.
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-### Development Flow
-Mandatory sequence: Constitution → Specify → Plan → Tasks → Claude Code → Review. Development phases follow: Console App → Basic backend + CLI, Web App → Frontend + APIs, Agents → AI-native logic + MCP, Local Kubernetes → Dockerized + Dapr + Kafka, Cloud Deployment → Fully scalable, event-driven.
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### Architecture Principles
-Stateless by default - backend in-memory state is strictly forbidden. Only persistent state allowed: Database, Kafka, Dapr. API & Tool First - direct DB/internal access forbidden. All operations via REST/GraphQL APIs, MCP tools, Dapr components. Event-driven architecture required for all critical actions.
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-### AI Agent Constraints
-Claude Code implements code only. Infrastructure automation and orchestration also handled by Claude Code. Safe agent behavior: hallucinations forbidden, all actions confirmable and idempotent, external operations must go via tool/API.
+### [PRINCIPLE_6_NAME]
 
-## Technology Stack Constraints
-Backend: Python + FastAPI + SQLModel. Frontend: Next.js + TailwindCSS. AI/Agents: OpenAI SDK, MCP. Infra: Kubernetes + Kafka + Dapr. Authentication: JWT mandatory. DB: PostgreSQL or SQLModel-supported DB. Cloud: Any provider, but spec-driven deployment.
 
-## Security & Compliance
-JWT authentication is mandatory. User isolation enforced at every layer. Audit logs mandatory for every agent action. Secrets never in code - environment variables only.
+[PRINCIPLE__DESCRIPTION]
 
-## Engineering Standards
-Production-grade code required: error-handling, logging, observability. Async where applicable. Unit + Integration tests mandatory. CI/CD pipelines spec-driven.
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-## Enforcement Rules
-What is not specified does not exist. What is not planned is not implemented. What is not in tasks is not coded. Claude Code implements only approved tasks.
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
-Constitution only amendable via consensus + spec approval. New rules override old rules only if explicitly documented.
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-01 | **Last Amended**: 2026-01-01
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
