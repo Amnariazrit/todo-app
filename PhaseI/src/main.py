@@ -3,7 +3,7 @@ Main entry point for the todo app.
 Contains the command dispatcher and main execution logic.
 """
 import sys
-from .commands import add_task, update_task, list_tasks, filter_command, filter_clear, sort_command, sort_clear, clear_all, delete_task, toggle_task_completion
+from .commands import add_task, update_task, list_tasks, filter_command, filter_clear, sort_command, sort_clear, clear_all
 from .display import print_help
 
 
@@ -88,32 +88,6 @@ def main():
             else:
                 print("Usage: python main.py clear [filter|sort|all]")
                 return
-
-    elif command == "delete":
-        if len(sys.argv) < 3:
-            print("Usage: python main.py delete id")
-            return
-
-        try:
-            task_id = int(sys.argv[2])
-        except ValueError:
-            print("Task ID must be a number")
-            return
-
-        delete_task(task_id)
-
-    elif command == "complete":
-        if len(sys.argv) < 3:
-            print("Usage: python main.py complete id")
-            return
-
-        try:
-            task_id = int(sys.argv[2])
-        except ValueError:
-            print("Task ID must be a number")
-            return
-
-        toggle_task_completion(task_id)
 
     elif command == "help":
         print_help()

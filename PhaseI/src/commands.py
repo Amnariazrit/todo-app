@@ -3,7 +3,7 @@ Command functions for the todo app.
 Contains all command implementations for add, update, list, filter, sort, etc.
 """
 from typing import List
-from .storage import tasks, current_filter, current_sort, save_tasks_to_file
+from .storage import tasks, current_filter, current_sort
 from .models import Task
 from .utils import get_visible_tasks, apply_filter, clear_filter, clear_sort, set_sort, validate_priority, parse_tags
 from .display import print_tasks
@@ -37,7 +37,6 @@ def add_task(title: str, description: str = "", priority: str = "medium", tags: 
             tags=tag_list
         )
         tasks.append(new_task)
-        save_tasks_to_file()  # Save to file after adding task
         print(f"Task {new_id} added successfully with priority '{priority}' and {len(tag_list)} tags.")
     except ValueError as e:
         print(f"Error creating task: {e}")
@@ -77,7 +76,6 @@ def update_task(task_id: int, title: str = None, description: str = None,
     if tags is not None:
         task.tags = parse_tags(tags)
 
-    save_tasks_to_file()  # Save to file after updating task
     print(f"Task {task_id} updated successfully.")
 
 
@@ -173,51 +171,3 @@ def sort_command(criteria: str):
     set_sort(criteria)
     visible_tasks = get_visible_tasks()
     print(f"Sort set to: {criteria}. Showing {len(visible_tasks)} tasks.")
-
-
-def delete_task(task_id: int):
-    """Delete a task by ID.
-
-    Args:
-        task_id: ID of the task to delete (must be positive integer)
-    """
-    if task_id <= 0:
-        print("Error: Task ID must be a positive integer.")
-        return
-
-    from .storage import tasks
-    original_length = len(tasks)
-    updated_tasks = [task for task in tasks if task.id != task_id]
-
-    if len(updated_tasks) == original_length:
-        print(f"Task {task_id} not found.")
-        return
-
-    # Clear the original list and extend with new tasks to modify the same object
-    tasks.clear()
-    tasks.extend(updated_tasks)
-
-    save_tasks_to_file()  # Save to file after deleting task
-    print(f"Task {task_id} deleted successfully.")
-
-
-def toggle_task_completion(task_id: int):
-    """Toggle a task's completion status.
-
-    Args:
-        task_id: ID of the task to toggle (must be positive integer)
-    """
-    if task_id <= 0:
-        print("Error: Task ID must be a positive integer.")
-        return
-
-    from .storage import tasks
-    task = next((t for t in tasks if t.id == task_id), None)
-    if not task:
-        print(f"Task {task_id} not found.")
-        return
-
-    task.completed = not task.completed
-    status = "completed" if task.completed else "incomplete"
-    save_tasks_to_file()  # Save to file after toggling completion
-    print(f"Task {task_id} marked as {status}.")

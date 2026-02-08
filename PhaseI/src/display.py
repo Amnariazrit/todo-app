@@ -75,8 +75,6 @@ def print_help():
     print("Available commands:")
     print("  add 'title' ['description'] ['priority'] ['tags']")
     print("  update id ['title'] ['description'] ['priority'] ['tags']")
-    print("  delete id")
-    print("  complete id")
     print("  list")
     print("  filter [status|priority|tag] [value]")
     print("  filter clear")
