@@ -51,8 +51,8 @@ async def register_user(
 ):
     """Register a new user."""
     # Check if user already exists
-    result = await db.exec(select(models.User).where(models.User.email == user_create.email))
-    existing_user = result.first()
+    result = await db.execute(select(models.User).where(models.User.email == user_create.email))
+    existing_user = result.scalar_one_or_none()
     
     if existing_user:
         raise HTTPException(
@@ -84,8 +84,8 @@ async def login_user(
 ):
     """Authenticate user and return access token."""
     # Find user by email
-    result = await db.exec(select(models.User).where(models.User.email == form_data.username))
-    user = result.first()
+    result = await db.execute(select(models.User).where(models.User.email == form_data.username))
+    user = result.scalar_one_or_none()
     
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
@@ -107,6 +107,8 @@ async def login_user(
         "user": schemas.UserRead(
             id=user.id,
             email=user.email,
-            name=user.name
+            name=user.name,
+            created_at=user.created_at,
+            updated_at=user.updated_at
         )
     }

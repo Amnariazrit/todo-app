@@ -27,6 +27,7 @@ app.add_middleware(
 
 # Include the routers
 app.include_router(tasks.router)
+app.include_router(tasks.legacy_router)  # For backward compatibility
 app.include_router(auth.router)
 
 
