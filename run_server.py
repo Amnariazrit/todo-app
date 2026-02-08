@@ -1,17 +1,15 @@
 import sys
 import os
-# Add the backend directory to the Python path
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+# Add the current directory to the Python path
+sys.path.insert(0, os.path.abspath('.'))
 
+# Change to the backend directory
+os.chdir('D:\\amna.riaz\\todo-app\\todo-app\\backend')
+
+# Import and run the app
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-# Import using absolute paths
-from routers import tasks
-from routers import auth
-import db
-import asyncio
-
+import uvicorn
 
 # Initialize FastAPI app
 app = FastAPI(title="Premium Todo API", version="1.0.0")
@@ -25,21 +23,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include the routers
-app.include_router(tasks.router)
-app.include_router(auth.router)
+# Import the tasks router directly
+from routers.tasks import router as tasks_router
+app.include_router(tasks_router)
 
+# Import db module to handle startup
+from db import create_tables
 
 @app.on_event("startup")
 async def on_startup():
-    await db.create_tables()
-
+    await create_tables()
 
 @app.get("/")
 def read_root():
     return {"message": "Premium Todo API", "version": "1.0.0"}
 
-
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
