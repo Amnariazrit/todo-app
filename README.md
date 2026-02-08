@@ -1,111 +1,98 @@
-# In-Memory Todo CLI App
+# Premium Todo API - Backend
 
-A simple command-line Todo list application in Python that stores tasks entirely in memory (no persistence to disk).
+This is the backend service for the Premium Todo application, built with FastAPI and SQLModel.
 
 ## Features
 
-- Add new tasks with unique IDs and pending status
-- View all tasks with formatted output showing ID, title, and status
-- Update existing task descriptions while preserving other attributes
-- Delete tasks by ID
-- Mark tasks as complete with visual status indicators
-- Comprehensive error handling and input validation
-- File-based storage for persistent task management (data saved between sessions)
+- Secure JWT-based authentication using Better Auth
+- Multi-user support with user isolation
+- Full CRUD operations for tasks
+- Task completion toggling
+- Filtering and pagination support
+- SQLModel for database modeling
+- Async SQLAlchemy for database operations
 
 ## Prerequisites
 
-- Python 3.13+
-- UV package manager
+- Python 3.9+
+- PostgreSQL database (or Neon for cloud deployment)
+- Better Auth for authentication
 
 ## Setup
 
-1. Clone or download the repository
-2. Ensure you have Python 3.13+ installed: `python --version`
-3. Install UV package manager: `pip install uv`
-4. Create virtual environment: `uv venv`
-5. Activate the virtual environment: `source .venv/bin/activate` (Linux/Mac) or `.venv\Scripts\activate` (Windows)
-6. Install dependencies: `uv pip install -e .`
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd todo-backend
+   ```
 
-## Usage
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-```bash
-# Add a new task
-python src/main.py add "Buy groceries"
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# List all tasks
-python src/main.py list
+4. Create a `.env` file in the backend directory with the following variables:
+   ```env
+   BETTER_AUTH_SECRET=your_better_auth_secret_here
+   DATABASE_URL=postgresql+asyncpg://username:password@localhost/dbname
+   BETTER_AUTH_URL=http://localhost:8000
+   ```
 
-# Update a task
-python src/main.py update 1 "Buy organic groceries"
+5. Run the application:
+   ```bash
+   cd backend
+   uvicorn main:app --reload
+   ```
 
-# Mark a task as complete
-python src/main.py complete 1
+## API Endpoints
 
-# Delete a task
-python src/main.py delete 1
+The API provides the following endpoints:
 
-# Show help
-python src/main.py --help
+- `GET /api/{user_id}/tasks` - Get all tasks for a user (with optional filtering)
+- `POST /api/{user_id}/tasks` - Create a new task for a user
+- `GET /api/{user_id}/tasks/{task_id}` - Get a specific task
+- `PUT /api/{user_id}/tasks/{task_id}` - Update a specific task
+- `DELETE /api/{user_id}/tasks/{task_id}` - Delete a specific task
+- `PATCH /api/{user_id}/tasks/{task_id}/complete` - Toggle task completion status
+
+## Authentication
+
+All endpoints require a valid JWT token in the Authorization header:
+
+```
+Authorization: Bearer <jwt_token>
 ```
 
-## Commands
+The user_id in the path parameter must match the user_id in the JWT token for security purposes.
 
-- `add "<description>"` - Add a new task with a description
-- `list` - Show all tasks with ID, status indicator, and title
-- `update <id> "<new description>"` - Update task description by ID
-- `complete <id>` - Mark task as completed by ID
-- `delete <id>` - Remove task by ID
+## Filtering and Pagination
 
-## Examples
+The GET /tasks endpoint supports the following query parameters:
+
+- `status` - Filter by task status (all, pending, completed)
+- `skip` - Number of records to skip (for pagination)
+- `limit` - Maximum number of records to return (default: 100)
+
+## Database
+
+The application uses SQLModel with an async PostgreSQL database. The models are defined in `models.py`.
+
+## Running Tests
+
+To run the tests:
 
 ```bash
-# Add multiple tasks
-python src/main.py add "Buy groceries"
-python src/main.py add "Walk the dog"
-python src/main.py add "Finish report"
-
-# View all tasks
-python src/main.py list
-# Output:
-# [○] 1: Buy groceries
-# [○] 2: Walk the dog
-# [○] 3: Finish report
-
-# Mark a task as complete
-python src/main.py complete 2
-
-# View tasks again to see the completed status
-python src/main.py list
-# Output:
-# [○] 1: Buy groceries
-# [✓] 2: Walk the dog
-# [○] 3: Finish report
-
-# Update a task
-python src/main.py update 3 "Finish project report"
-
-# Delete a task
-python src/main.py delete 1
+pytest tests/
 ```
 
-## Error Handling
+## API Documentation
 
-The application provides user-friendly error messages for various scenarios:
-
-- Empty task descriptions: "Error: Task description cannot be empty"
-- Non-existent task IDs: "Error: Task with ID X not found"
-- Invalid command syntax: Shows help with available commands
-- Very long task descriptions (over 1000 characters): "Error: Task description is too long (maximum 1000 characters)"
-
-## Architecture
-
-- `src/main.py`: CLI entry point and command handlers
-- `src/models.py`: Task data model definition
-- `src/storage.py`: In-memory storage manager with all CRUD operations
-- Tasks are persisted in tasks.json file between runs
-
-## Performance
-
-- All commands execute under 1 second
-- Efficient in-memory storage using Python dictionaries
-- Optimized for up to 100+ tasks in memory
+Interactive API documentation is available at:
+- `/docs` - Swagger UI
+- `/redoc` - ReDoc
