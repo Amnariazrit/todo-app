@@ -108,7 +108,7 @@ export function TaskManager() {
     }
   };
 
-  const handleUpdateTask = async (id: string, updates: Partial<{ title: string; description: string; priority: string; tags: string[] }>) => {
+  const handleUpdateTask = async (id: string, updates: Partial<{ title: string; description: string; priority: Task['priority']; tags: string[] }>) => {
     try {
       // Update task via API
       const updatedTask = await apiClient.put<Task>(`/tasks/${id}`, updates);
